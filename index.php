@@ -44,12 +44,11 @@ include_once ('app/templates/header.php');
   // jQuery Document
   $(document).ready(function(){
 
-
-                $(function () {
-                var wtf = $('#chatbox');
-                var height = wtf[0].scrollHeight;
-                wtf.scrollTop(height);
-            });
+$(function () {
+  var wtf = $('#chatbox');
+  var height = wtf[0].scrollHeight;
+  wtf.scrollTop(height);
+});
 
   	//If user submits the form
   	$("#submitmsg").click(function(){
@@ -69,9 +68,10 @@ include_once ('app/templates/header.php');
   			success: function(html){
   				$("#chatbox").html(html); //Insert chat log into the #chatbox div
   				var newscrollHeight = $("#chatbox").attr("scrollHeight") - 20;
-  				if(newscrollHeight > oldscrollHeight){
-  					$("#chatbox").animate({ scrollTop: newscrollHeight }, 'normal'); //Autoscroll to bottom of div
-  				}
+            var wtf = $('#chatbox');
+            var height = wtf[0].scrollHeight;
+            wtf.scrollTop(height);
+
   		  	},
   		});
   	}
