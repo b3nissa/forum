@@ -19,14 +19,12 @@ include_once ('app/templates/header.php');
 
       $query = "SELECT * FROM users WHERE username='$username' AND password='$hashed'";
       $result = mysqli_query($dbc, $query) or die('Siltech -> Login query mislukt.');
-      while($row = mysqli_fetch_assoc($result)) {
       if(mysqli_num_rows($result) > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
 
         $username = $row['username'];
         $avatar = $row['avatar'];
         $rank = $row['rank'];
-
-        ob_start();
 
         $_SESSION['username'] = $username;
         $_SESSION['avatar'] = $avatar;
@@ -34,12 +32,13 @@ include_once ('app/templates/header.php');
 
         header('Location: index');
 
-      } else {
-        header('Location: inloggen?fout');
-      }
-    }
 
-  }
+      }} else {
+        header('Location: inloggen?fout');
+        }
+
+
+    }
 
 
      ?>

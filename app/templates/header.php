@@ -21,12 +21,31 @@ include_once ('config.php');
     case 'inloggen.php':
       $titel = 'Inloggen';
       break;
+
+
+    case 'subforum.php':
+
+      $url=explode("/", "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+      $link = end($url);
+
+      $query = "SELECT cat_id, naam, link FROM subforums WHERE link = '$link'";
+      $query_result = mysqli_query($dbc, $query) or die('Siltech -> Kan subforums breadcrumb niet ophalen.');
+      while($row = mysqli_fetch_assoc($query_result)) {
+        $naam = $row['naam'];
+        $cat_id = $row['cat_id'];
+
+        $titel = $naam;
+        break;
       }
+
+    }
+
 ?>
 
     <title><?php echo $forum_naam; ?> - <?php echo $titel; ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="<?php echo $base_url; ?>">
     <link href="./styles/css/main.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
 
@@ -105,7 +124,10 @@ include_once ('config.php');
 
       <div class="dropdown-menu">
         <div class="item"><a href=""><i class="fas fa-spin fa-cog"></i> Gebruikerspaneel</a></div>
+        <div class="item"><a href=""><i class="fas fa-users"></i> Mijn vrienden</a></div>
         <div class="item"><a href=""><i class="fas fa-camera"></i> Wijzig avatar</a></div>
+        <div class="item"><a href=""><i class="fas fa-image"></i> Wijzig handtekening</a></div>
+        <div class="item"><a href=""><i class="fas fa-envelope"></i> Priveberichten</a></div>
         <div class="item"><a id="uitloggen" href="uitloggen"><i class="fas fa-power-off"></i> Uitloggen</a></div>
 
       </div>

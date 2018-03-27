@@ -120,6 +120,7 @@ $(function () {
      $sub_naam = $row['naam'];
      $sub_beschrijving = $row['beschrijving'];
      $sub_cat_id = $row['cat_id'];
+     $sub_link = $row['link'];
 
      echo '
      <div class="subforum-item">
@@ -128,7 +129,7 @@ $(function () {
          <i class="fas '. $sub_icoon .'"></i>
        </div>
 
-       <a href="#">
+       <a href="topics/'. $sub_link .'">
        <div class="subforum-info">
          <div class="subforum-titel">'. $sub_naam .'</div>
 
