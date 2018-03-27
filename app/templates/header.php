@@ -38,6 +38,10 @@ include_once ('config.php');
         break;
       }
 
+      if(empty($titel)) {
+        header('Location: '. $base_url .'/index');
+      }
+
     }
 
 ?>
