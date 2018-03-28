@@ -9,6 +9,7 @@ include_once ('config.php');
 
 
   $pagina = basename($_SERVER['PHP_SELF']);
+
   switch ($pagina) {
     case 'index.php':
       $titel = 'Forumoverzicht';
@@ -114,10 +115,11 @@ include_once ('config.php');
 
       $username = $_SESSION['username'];
 
-      $query = "SELECT avatar FROM users WHERE username='$username'";
+      $query = "SELECT * FROM users WHERE username='$username'";
       $result = mysqli_query($dbc, $query) or die('Siltech -> Kon avatar niet ophalen.');
       while($row = mysqli_fetch_assoc($result)) {
         $avatar = $row['avatar'];
+        $rank = $row['rank'];
       }
 
       echo '
@@ -149,6 +151,31 @@ include_once ('config.php');
 </div>
 
 
+<?php
+
+$verbannen_query = "SELECT verbannen FROM users WHERE username = '$username'";
+$verbannen_result = mysqli_query($dbc, $verbannen_query) or die('Siltech -> Kan ban status niet controleren.');
+while($data = mysqli_fetch_assoc($verbannen_result)) {
+  $verbannen = $data['verbannen'];
+
+  if($verbannen == 1) {
+    die('
+    <div class="container">
+      <div class="categorie">
+        <div class="categorie-titel">
+        <i class="fas fa-gavel"></i> Je bent verbannen!
+        </div>
+        <div style="text-align: center; line-height: 100px" class="subforum-item">
+        Je bent <strong>permanent</strong> verbannen van dit forum. Vragen? Stuur een e-mail naar <i class="far fa-envelope"></i> <strong><a href="mailto:unban@siltech.nl">unban@siltech.nl</a></strong>
+        </div>
+      </div>
+    </div>
+    ');
+  }
+}
+
+
+?>
 
 
 <!-- einde header -->

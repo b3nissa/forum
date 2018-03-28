@@ -75,7 +75,7 @@ $(function () {
   		  	},
   		});
   	}
-  	setInterval (loadLog, 2500);	//Reload file every 2.5 seconds
+  	setInterval (loadLog, 500);	//Reload file every 2.5 seconds
 
   	//If user wants to end session
 
@@ -91,12 +91,16 @@ $(function () {
 
   <?php
 
-  $query = "SELECT * from categorieen";
+
+  $query = "SELECT * from categorieen ORDER BY id ASC";
   $result = mysqli_query($dbc, $query) or die ('Siltech -> Kon subforums niet ophalen.');
   while($row = mysqli_fetch_assoc($result)) {
     $id = $row['id'];
     $naam = $row['naam'];
     $cat_id = $row['cat_id'];
+    $min_rank = $row['min_rank'];
+
+    if($rank >= $min_rank) {
 
     echo '
     <div class="categorie">
@@ -115,12 +119,23 @@ $(function () {
    $query2 = "SELECT * FROM subforums WHERE cat_id = '$cat_id'";
    $result2 = mysqli_query($dbc, $query2) or die ('Siltech -> Kon subforums niet ophalen.');
    while($row = mysqli_fetch_assoc($result2)) {
+
+
      $sub_id = $row['id'];
      $sub_icoon = $row['icoon'];
      $sub_naam = $row['naam'];
      $sub_beschrijving = $row['beschrijving'];
      $sub_cat_id = $row['cat_id'];
      $sub_link = $row['link'];
+
+     $laatste_topic_sub = "SELECT titel, gebruiker, datum FROM topics WHERE subforum_id = '$sub_id' ORDER BY datum DESC LIMIT 1";
+     $laatste_topic_result = mysqli_query($dbc, $laatste_topic_sub) or die('Siltech -> Kan laatste topic niet ophalen.');
+
+     $laatste_topic = mysqli_fetch_assoc($laatste_topic_result);
+     $laatste_username = $laatste_topic['gebruiker'];
+
+
+
 
      echo '
      <div class="subforum-item">
@@ -138,24 +153,61 @@ $(function () {
          </div>
 
        </div>
-       </a>
+       </a>';
 
+       ?>
+
+       <?php
+
+
+
+                     $gebruiker_kleur = "SELECT rank FROM users WHERE username = '$laatste_username'";
+                     $result_kleur = mysqli_query($dbc, $gebruiker_kleur) or die('Siltech -> Kon rank niet ophalen.');
+                     while($row = mysqli_fetch_assoc($result_kleur)) {
+                       $rank = $row['rank'];
+
+                       $kleurcode = "SELECT * FROM ranks WHERE id = '$rank'";
+                       $kleurcode_result = mysqli_query($dbc, $kleurcode) or die('Siltech -> Kon kleurcode niet ophalen.');
+
+                       $kleurcode_gebruiker = mysqli_fetch_assoc($kleurcode_result);
+
+        ?>
+
+
+
+
+       <?php
+
+       $truncated = (strlen($laatste_topic['titel']) > 30) ? substr($laatste_topic['titel'], 0, 30) . '...' : $laatste_topic['titel'];
+
+
+echo '
        <div class="subforum-extra-info">
-       Topic & Reactie aantal
+      <div class="laatste-topic">
+      <span style="color: #007FB1;">'. $truncated .'</span><br />
+      Geplaatst door <span style="color: '. $kleurcode_gebruiker['kleurcode'] .'">'. $laatste_topic['gebruiker'] .'</span>
+      </div>
        </div>
-     </div>
      ';
 
-   }
+}
 
-   echo "</div>";
-  }
+
+echo "</div>";
+ }
+
+
+ echo "</div>";
+
+}
+
+
+}
     ?>
 
 
 
   </div>
-
 
 <?php
 include_once ('app/templates/footer.php');
