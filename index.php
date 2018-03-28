@@ -21,6 +21,11 @@ include_once ('app/templates/header.php');
   	<div id="chatbox">
 
     <?php
+
+    // if(als) log.html bestaat(file_exists) en de filesize van log.html is groter dan 0 bytes.
+    // open log.html met permissie r (read  /lees)
+    // Haal chats op (open en read de inhoud en plaats het hier)
+
   	if(file_exists("log.html") && filesize("log.html") > 0){
   		$handle = fopen("log.html", "r");
   		$contents = fread($handle, filesize("log.html"));
@@ -115,7 +120,7 @@ $(function () {
    ?>
 
    <?php
-
+// Subforums ophalen in db
    $query2 = "SELECT * FROM subforums WHERE cat_id = '$cat_id'";
    $result2 = mysqli_query($dbc, $query2) or die ('Siltech -> Kon subforums niet ophalen.');
    while($row = mysqli_fetch_assoc($result2)) {
@@ -159,7 +164,7 @@ $(function () {
 
        <?php
 
-
+                    // Geef username bijbehorende kleur
 
                      $gebruiker_kleur = "SELECT rank FROM users WHERE username = '$laatste_username'";
                      $result_kleur = mysqli_query($dbc, $gebruiker_kleur) or die('Siltech -> Kon rank niet ophalen.');
@@ -177,7 +182,7 @@ $(function () {
 
 
        <?php
-
+       // Als topic titel te lang is, kort hem af na 30 karakters en zet "..." neer
        $truncated = (strlen($laatste_topic['titel']) > 30) ? substr($laatste_topic['titel'], 0, 30) . '...' : $laatste_topic['titel'];
 
 

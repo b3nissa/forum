@@ -4,6 +4,8 @@ include_once ('app/templates/header.php');
 ?>
 
 <?php
+// Als je al ingelogd bent, ga naar index
+
 if(isset($_SESSION['username'])) {
   header('Location: index');
 }
@@ -16,11 +18,12 @@ if(isset($_SESSION['username'])) {
   <div class="content">
 
     <?php
-
+// If isset $_POST['submit'] dus als er op submit word gedrukt
     if(isset($_POST['submit'])) {
-
+      // escape string en html entities tegen injectie.
       $username = mysqli_real_escape_string($dbc, htmlentities($_POST['username']));
       $password = mysqli_real_escape_string($dbc, htmlentities($_POST['password']));
+      // Pak input van password en hash deze sha512
       $hashed = hash('sha512', $password);
 
       $query = "SELECT * FROM users WHERE username='$username' AND password='$hashed'";
@@ -31,6 +34,8 @@ if(isset($_SESSION['username'])) {
         $username = $row['username'];
         $avatar = $row['avatar'];
         $rank = $row['rank'];
+
+        // Vul sessie variablen
 
         $_SESSION['username'] = $username;
         $_SESSION['avatar'] = $avatar;
@@ -50,6 +55,7 @@ if(isset($_SESSION['username'])) {
      ?>
 
      <?php
+     // Als ?fout word meegegeven laat foutmelding zien
      if(isset($_GET['fout'])) {
        echo '<div class="foutmelding"><i class="fas fa-exclamation-triangle"></i> Ongeldige gebruikersnaam en of wachtwoord.</div>';
      }

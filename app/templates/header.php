@@ -3,13 +3,17 @@
 <head>
 <?php
 
+// Sessie start
 session_start();
 
 include_once ('config.php');
 
 
+// $_SERVER['PHP_SELF'] = huidige url
+// basename stript voor de / dus index.php blijft over
   $pagina = basename($_SERVER['PHP_SELF']);
 
+// PHP Switch van $pagina vul website titel in
   switch ($pagina) {
     case 'index.php':
       $titel = 'Forumoverzicht';
@@ -26,9 +30,15 @@ include_once ('config.php');
 
     case 'subforum.php':
 
+      // HTTP_HOST website host, URI na de slash
+      // explode (string uit elkaar halen bij elke "/" en er een arrray van aanmaken)
+      // Array vullen met woorden, in dit geval end (laatste item in array pakken dus link ophalen)
+
       $url=explode("/", "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
       $link = end($url);
 
+
+      // Ophalen ervan
       $query = "SELECT cat_id, naam, link FROM subforums WHERE link = '$link'";
       $query_result = mysqli_query($dbc, $query) or die('Siltech -> Kan subforums breadcrumb niet ophalen.');
       while($row = mysqli_fetch_assoc($query_result)) {
@@ -39,6 +49,7 @@ include_once ('config.php');
         break;
       }
 
+      // Als $titel niet gevuld is (pagina bestaat dus niet redirect naar index)
       if(empty($titel)) {
         header('Location: '. $base_url .'/index');
       }
@@ -111,6 +122,8 @@ include_once ('config.php');
 
     <?php
 
+    // if(als) SESSIE_username NIET leeg is !empty (not empty = gevuld)
+
     if(!empty($_SESSION['username'])) {
 
       $username = $_SESSION['username'];
@@ -152,6 +165,8 @@ include_once ('config.php');
 
 
 <?php
+
+// Check of de gebruiker verbannen is
 
 $verbannen_query = "SELECT verbannen FROM users WHERE username = '$username'";
 $verbannen_result = mysqli_query($dbc, $verbannen_query) or die('Siltech -> Kan ban status niet controleren.');

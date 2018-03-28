@@ -87,7 +87,7 @@ if(empty($_SESSION['username'])) {
        <div class="subforum-icoon">
 
          <?php
-
+// Check of topic gesloten is zet slotje erbij of niet
          if($gesloten == 0) {
            echo '<i class="fas fa-sticky-note"></i>';
          } elseif($gesloten == 1) {

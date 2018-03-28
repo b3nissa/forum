@@ -7,7 +7,9 @@ if(isset($_SESSION['username'])){
 
 	}
 
-
+// Pak post[text] en haal slashes en vreemde tekens weg (beveiliging)
+// Vervang tekst met emojis
+// str_replace string replace $emojicode lijst met $emojis en stop die in $text
 	// Input emojis vervangen
 	$text = stripslashes(htmlentities($_POST['text']));
 	$emojicode = [":)", ":D", ":(", "xD"];
