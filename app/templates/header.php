@@ -52,7 +52,6 @@ include_once ('config.php');
     <base href="<?php echo $base_url; ?>">
     <link href="./styles/css/main.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
-
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <link rel="apple-touch-icon" sizes="180x180" href="./media/images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./media/images/favicon/favicon-32x32.png">

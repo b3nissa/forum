@@ -3,6 +3,12 @@
 include_once ('app/templates/header.php');
 ?>
 
+<?php
+if(isset($_SESSION['username'])) {
+  header('Location: index');
+}
+ ?>
+
 <div class="container">
   <div class="categorie-titel m50">
     <i class="fas fa-user"></i> Inloggen

@@ -1,10 +1,9 @@
 <?php
 include_once ('app/templates/header.php');
-?>
 
-<?php
-
-
+if(isset($_SESSION['username'])) {
+  header('Location: index');
+}
 
 if(isset($_POST['submit']) && !empty($_POST['g-recaptcha-response'])) {
 
